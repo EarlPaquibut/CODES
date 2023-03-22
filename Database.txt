@@ -1,0 +1,42 @@
+CREATE TABLE tblRegister(
+    userid int IDENTITY(1,1) PRIMARY KEY,
+    username varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    name nvarchar(255),	
+    address nvarchar(255),
+    phone nvarchar(255)
+);
+
+CREATE TABLE tblBook(
+    bookid int IDENTITY(1,1) PRIMARY KEY,
+    title nvarchar(255) NOT NULL,
+    author nvarchar(255) NOT NULL,
+    quantity int NOT NULL,
+    status varchar(255) NOT NULL
+);
+
+CREATE SEQUENCE seq_userid
+    START WITH 1
+    INCREMENT BY 1
+
+CREATE TABLE tblBorrower(
+    borrowerid int IDENTITY(1,1) PRIMARY KEY,
+    userid int DEFAULT (NEXT VALUE FOR seq_userid),
+    username varchar(255),
+    name nvarchar(255),	
+    address nvarchar(255),
+    phone nvarchar(255),
+    status varchar(255) NOT NULL,
+);
+
+
+CREATE TABLE tblBorrow (
+    borrowid int PRIMARY KEY IDENTITY(1,1),
+    borrowerid int,
+    bookid int,
+    issuedDate date NOT NULL,
+    returnDate date,
+    FOREIGN KEY (borrowerid) REFERENCES tblBorrower(borrowerid),
+    FOREIGN KEY (bookid) REFERENCES tblBook(bookid)
+);
+
